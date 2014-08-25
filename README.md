@@ -37,7 +37,7 @@ facebot is divided by two components. the masterbot.py script is the one that de
 
 ## how to use this tool:
 
-Open `conf/info.conf` and fill in your info; you can change `fbotDB` as the database name.
+Open `conf/info.conf` and fill in your info; you can change `fbotDB`.
 
 Before you install req*, do
 
@@ -56,7 +56,7 @@ pip install -r requirements.txt
 
 ~~'Warning: before executing masterbot you need to create the DB in order to store all the loot. the database squema in jpg form is shown on the repo'.~~
 
-`masterbot.py`will create the db for, given `conf/info.conf` is correct.
+`masterbot.py`will create the db for you, given `conf/info.conf` is correct.
 
 'warning: in order to leverage "target_mode" a fake facebook app needs to be created and an access token be created.' these steps were done manually due to lack of dev time but thats on the works...
 
