@@ -35,6 +35,8 @@ import gdata.youtube.service
 import time
 import hashlib
 import datetime
+import sys
+import db
 
 
 categories = ["Autos","Music","Travel","Animals","Sports","Comedy","People","Entertainment","News","Howto","Education","Tech","Nonprofit","Movies"]
@@ -50,12 +52,34 @@ for c in categories:
         vLink = vLink.replace("&feature=youtube_gdata_player","")
         yt_videos.append(vLink)
 
+config_file = db.Conf()
+param = config_file.getConf()
+host = param['host']
+user = param['user']
+password = param['pass']
+dbname = param['db']
+
 try:
-    dbconn = MySQLdb.connect("127.0.0.1","user","pass","DBname" )
+    dbconn = MySQLdb.connect(host, user, password, dbname )
     cursor = dbconn.cursor()
 
 except Exception as ex:
-    print ex
+
+    print 'Could not connect to db: %s'
+    db_create = db.sql(host, user, password, dbname)
+
+    try:
+        print 'Creating database'
+        db_create.create_database()
+        print 'Created %s' %dbname
+
+    except Exception as e:
+        '''Should add proper error handling as to pinpoint the exception'''
+        code = re.findall(r'\d+', str(e))
+        if '1007' in code:
+            print 'Database already exists'
+        else:
+            print "Please check your credentials"
 
 def addFbids(fbids):
     print "processing received fbid's....."
