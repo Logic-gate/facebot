@@ -65,7 +65,7 @@ try:
 
 except Exception as ex:
 
-    print 'Could not connect to db: %s' dbname
+    print 'Could not connect to db: %s' %dbname
     db_create = db.sql(host, user, password, dbname)
 
     try:
