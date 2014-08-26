@@ -72,6 +72,10 @@ except Exception as ex:
         print 'Creating database'
         db_create.create_database()
         print 'Created %s' %dbname
+        dbconn = MySQLdb.connect(host, user, password, dbname )
+        cursor = dbconn.cursor()
+        
+        '''^ Needed for first time launch'''
 
     except Exception as e:
         '''Should add proper error handling as to pinpoint the exception'''
@@ -156,6 +160,7 @@ def execute_sql(sql):
     except Exception as ex:
         print ex
 
+
 def process_loot(cargo):
 
     fbid = ''
@@ -166,15 +171,35 @@ def process_loot(cargo):
             if k1 == 'about_me':
                 print "saving about me section on database... "
                 work=interests =  hometown_location = relationship_status= name=devices=sex=significant_other_id= birthday = contact_email=education=profile_url =''
+                
                 columns = ','.join(v1[0].keys())
                 interests =  v1[0]['interests']
-                hometown_location = v1[0]['hometown_location']['name']
+                #hometown_location = v1[0]['hometown_location']['name']
+                '''
+                hometown_location fails 'NoneType' object has no attribute '__getitem__' if "hometown_location": null. rm ['name'] fixes it.
+                Confirmation needed 
+                '''
+                try:
+                    hometown_location = v1[0]['hometown_location']['name']
+                    #print hometown_location
+                except:
+                    #print 'Hometown not found'
+                    pass
+                
                 relationship_status = v1[0]['relationship_status']
                 name = v1[0]['name']
                 #devices = v1[0]['devices'][0]
-                devices = v1[0]['devices'][0]['os']
-
-                print devices
+                #devices = v1[0]['devices'][0]['os']
+                '''
+                devices fails 'NoneType' object has no attribute '__getitem__' if "devices": null.
+                '''
+                try:
+                    devices = v1[0]['devices'][0]['os']
+                    #print devices
+                except:
+                    #print 'No devices found'
+                    pass
+                
                 sex = v1[0]['sex']
                 significant_other_id = v1[0]['significant_other_id']
                 if v1[0]['work']:
