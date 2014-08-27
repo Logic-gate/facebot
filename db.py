@@ -44,7 +44,7 @@ class sql:
 	    cur.execute(sql_create)
 	    cur.execute(sql_use)
 	    cur.execute('''CREATE TABLE fbids (
-	                    	fbids BIGINT(20),
+	                    	fbid BIGINT(20),
 	                      	sent TEXT,
 	                      	crawled VARCHAR(20)
 	                                         )'''
